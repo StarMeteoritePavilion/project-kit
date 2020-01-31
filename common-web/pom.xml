@@ -10,17 +10,7 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>common-utils</artifactId>
+    <artifactId>common-web</artifactId>
     <version>${revision}</version>
-
-    <name>common-utils</name>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
 </project>
