@@ -23,15 +23,36 @@ public class StringUtil {
     }
 
     /**
+     * str == null or str.length == 0
+     * @param str
+     * @return
+     */
+    public static boolean isEmpty(String str) {
+        if (str == null || str.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * str != null and str.length > 0
      * @param str
      * @return
      */
     public static boolean isNotEmpty(String str) {
-        if (str == null || str.isEmpty()) {
-            return false;
+        return !isEmpty(str);
+    }
+
+    /**
+     * str == null or str.length == 0 or str.trim() == 0
+     * @param str
+     * @return
+     */
+    public static boolean isBlank(String str) {
+        if (str == null || str.isBlank()) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -40,10 +61,7 @@ public class StringUtil {
      * @return
      */
     public static boolean isNotBlack(String str) {
-        if (str == null || str.isBlank()) {
-            return false;
-        }
-        return true;
+        return !isBlank(str);
     }
 
 }
