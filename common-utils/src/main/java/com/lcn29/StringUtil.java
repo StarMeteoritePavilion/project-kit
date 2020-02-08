@@ -19,7 +19,6 @@ public class StringUtil {
         if (!isNotEmpty(str)) {
             return str;
         }
-
         return str.replace(" ", "");
     }
 
