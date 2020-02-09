@@ -92,6 +92,5 @@ public class HttpUtilTest {
 
     @Test
     void file() throws IOException {
-        String s = HttpUtil.postFile();
     }
 }
