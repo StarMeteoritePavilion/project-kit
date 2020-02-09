@@ -1,6 +1,7 @@
 package com.lcn29.http;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lcn29.CollectionMapUtil;
 import com.lcn29.constant.CommonConstants;
 import com.lcn29.http.request.RequestInfo;
 import okhttp3.*;
@@ -44,69 +45,141 @@ public class HttpUtil {
      * @return
      * @throws Exception
      */
-    public static String get(RequestInfo info) throws IllegalArgumentException, IOException {
-
-        if (Objects.isNull(info) || Objects.isNull(info.getUrl())) {
-            throw  new IllegalArgumentException("the request info or the request url is null");
-        }
-        // make the params join the url
-        Optional.ofNullable(info.getParams()).ifPresent(params -> {
-
-            StringBuilder sb = new StringBuilder(info.getUrl()).append(CommonConstants.QUESTION_MARK);
-            params.forEach((key, value) -> sb.append(key)
-                .append(CommonConstants.EQUAL_SIGN)
-                .append(value)
-                .append(CommonConstants.QUESTION_MARK));
-            info.url(sb.substring(0, sb.length() - 1));
-        });
-
-        Request.Builder builder = new Request.Builder();
-        Optional.ofNullable(info.getHeaders()).ifPresent(headers -> {
-            Headers.Builder headerBuilder = new Headers.Builder();
-            headers.forEach(headerBuilder::add);
-            builder.headers(headerBuilder.build());
-        });
-
-        Request request = builder.url(info.getUrl()).build();
-        try (Response response = getHttpClient().newCall(request).execute()) {
-            if (!response.isSuccessful()) {
-                throw new IOException("Unexpected code " + response);
-            }
-            ResponseBody responseBody = response.body();
-            if (Objects.isNull(responseBody)) {
-                throw new IOException("the response body no content");
-            }
-            return responseBody.string();
-        }
+    public static String get(RequestInfo info) throws IOException {
+        return startRequest(info, HttpMethod.GET);
     }
 
     /**
      * http post request
      * @param info
      * @return
+     * @throws Exception
      */
-    public static String post(RequestInfo info) throws IllegalArgumentException, IOException{
-        if (Objects.isNull(info) || Objects.isNull(info.getUrl())) {
-            throw  new IllegalArgumentException("the request info or the request url is null");
-        }
+    public static String post(RequestInfo info) throws IOException {
+        return startRequest(info, HttpMethod.POST);
+    }
 
+    /**
+     * http put request
+     * @param info
+     * @return
+     * @throws Exception
+     */
+    public static String put(RequestInfo info) throws IOException {
+        return startRequest(info, HttpMethod.PUT);
+    }
+
+    /**
+     * http delete request
+     * @param info
+     * @return
+     * @throws Exception
+     */
+    public static String delete(RequestInfo info) throws IOException {
+        return startRequest(info, HttpMethod.DELETE);
+    }
+
+    /**
+     * http patch request
+     * @param info
+     * @return
+     * @throws Exception
+     */
+    public static String patch(RequestInfo info) throws IOException {
+        return startRequest(info, HttpMethod.PATCH);
+    }
+
+    /**
+     * really request process
+     * @param info
+     * @param method
+     * @return
+     * @throws IOException
+     */
+    private static String startRequest(RequestInfo info, HttpMethod method) throws IOException {
+
+        if (verifyArgs(info)) {
+            throw new IllegalArgumentException("the request info or the request url is null");
+        }
         Request.Builder builder = new Request.Builder();
+        urlHandler(builder, info, method);
+        paramsHandler(builder, info, method);
+        headersHandler(builder, info);
+        return executeRequest(builder);
+    }
+
+    /**
+     * verify the request argument
+     * @return
+     */
+    private static boolean verifyArgs(RequestInfo info) {
+        return Objects.isNull(info) || Objects.isNull(info.getUrl());
+    }
+
+    /**
+     * handler the request url
+     * @param builder
+     * @param info
+     * @param httpMethod
+     */
+    private static void urlHandler(Request.Builder builder, RequestInfo info, HttpMethod httpMethod) {
+
+        if (!HttpMethod.GET.equals(httpMethod) || CollectionMapUtil.isEmpty(info.getParams())) {
+            builder.url(info.getUrl());
+            return;
+        }
         // make the params join the url
-        Optional.ofNullable(info.getParams()).ifPresent(params -> {
-            JSONObject jsonObject = new JSONObject();
-            params.forEach(jsonObject::put);
-            RequestBody body = RequestBody.create(JSONObject.toJSONString(jsonObject), JSON);
-            builder.post(body);
-        });
+        StringBuilder sb = new StringBuilder(info.getUrl())
+            .append(CommonConstants.QUESTION_MARK);
+
+        info.getParams().forEach((key, value) -> sb.append(key)
+            .append(CommonConstants.EQUAL_SIGN)
+            .append(value)
+            .append(CommonConstants.QUESTION_MARK));
+
+        builder.url(sb.substring(0, sb.length() - 1));
+    }
+
+    /**
+     * handler the request params
+     * @param builder
+     * @param info
+     * @param method
+     */
+    private static void paramsHandler(Request.Builder builder, RequestInfo info, HttpMethod method) {
+
+        if (HttpMethod.GET == method || CollectionMapUtil.isEmpty(info.getParams())) {
+            builder.method(method.getMethod(),null);
+            return;
+        }
+        JSONObject jsonObject = new JSONObject();
+        info.getParams().forEach(jsonObject::put);
+        RequestBody body = RequestBody.create(JSONObject.toJSONString(jsonObject), JSON);
+        builder.method(method.getMethod(), body);
+    }
+
+    /**
+     * handler the request header
+     * @param builder
+     * @param info
+     */
+    private static void headersHandler(Request.Builder builder, RequestInfo info) {
 
         Optional.ofNullable(info.getHeaders()).ifPresent(headers -> {
             Headers.Builder headerBuilder = new Headers.Builder();
             headers.forEach(headerBuilder::add);
             builder.headers(headerBuilder.build());
         });
+    }
 
-        Request request = builder.url(info.getUrl()).build();
-        try (Response response = getHttpClient().newCall(request).execute()) {
+    /**
+     * start request the service
+     * @param builder
+     * @return
+     * @throws IOException
+     */
+    private static String executeRequest(Request.Builder builder) throws IOException {
+        try (Response response = getHttpClient().newCall(builder.build()).execute()) {
             if (!response.isSuccessful()) {
                 throw new IOException("Unexpected code " + response);
             }
@@ -150,5 +223,31 @@ public class HttpUtil {
             }
         }
         return INSTANCE.httpClient;
+    }
+
+    private enum HttpMethod {
+
+        /** http get request */
+        GET("get"),
+        /** http post request */
+        POST("post"),
+        /** http put request */
+        PUT("put"),
+        PATCH("patch"),
+        /** http delete request */
+        DELETE("delete")
+        ;
+
+        /**
+         * Request Method
+         */
+        private String method;
+
+        HttpMethod(String method){
+            this.method = method;
+        }
+        public String getMethod() {
+            return method;
+        }
     }
 }
