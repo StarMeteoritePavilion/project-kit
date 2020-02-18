@@ -1,4 +1,4 @@
-package com.lcn29;
+package com.lcn29.kit.util;
 
 /**
  * <pre>

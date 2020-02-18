@@ -1,4 +1,4 @@
-package com.lcn29.http.request;
+package com.lcn29.kit.util.http.request;
 
 import java.util.HashMap;
 import java.util.Map;

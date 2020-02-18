@@ -1,7 +1,7 @@
 package com.lcn29;
 
-import com.lcn29.http.HttpUtil;
-import com.lcn29.http.request.RequestInfo;
+import com.lcn29.kit.util.http.HttpUtil;
+import com.lcn29.kit.util.http.request.RequestInfo;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * <pre>
- *  Test {@link com.lcn29.http.HttpUtil}
+ *  Test {@link com.lcn29.kit.util.http.HttpUtil}
  * </pre>
  *
  * @author LCN

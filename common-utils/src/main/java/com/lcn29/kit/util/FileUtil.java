@@ -1,4 +1,4 @@
-package com.lcn29;
+package com.lcn29.kit.util;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -1,4 +1,4 @@
-package com.lcn29.constant;
+package com.lcn29.kit.util.constant;
 
 /**
  * <pre>

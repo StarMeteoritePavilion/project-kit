@@ -1,9 +1,9 @@
-package com.lcn29.http;
+package com.lcn29.kit.util.http;
 
 import com.alibaba.fastjson.JSONObject;
-import com.lcn29.CollectionMapUtil;
-import com.lcn29.constant.CommonConstants;
-import com.lcn29.http.request.RequestInfo;
+import com.lcn29.kit.util.CollectionMapUtil;
+import com.lcn29.kit.util.constant.CommonConstants;
+import com.lcn29.kit.util.http.request.RequestInfo;
 import okhttp3.*;
 
 import java.io.IOException;
