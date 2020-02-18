@@ -14,14 +14,14 @@
     <version>${revision}</version>
     <packaging>pom</packaging>
 
+    <properties>
+        <revision>0.0.1-SNAPSHOT</revision>
+    </properties>
+
     <modules>
         <module>common-utils</module>
         <module>common-web</module>
     </modules>
-
-    <properties>
-        <revision>0.0.1-SNAPSHOT</revision>
-    </properties>
 
     <dependencyManagement>
         <dependencies>

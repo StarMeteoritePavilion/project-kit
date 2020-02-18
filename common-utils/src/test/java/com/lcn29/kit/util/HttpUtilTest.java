@@ -1,4 +1,4 @@
-package com.lcn29;
+package com.lcn29.kit.util;
 
 import com.lcn29.kit.util.http.HttpUtil;
 import com.lcn29.kit.util.http.request.RequestInfo;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * <pre>
- *  Test {@link com.lcn29.kit.util.http.HttpUtil}
+ *  Test {@link HttpUtil}
  * </pre>
  *
  * @author LCN
