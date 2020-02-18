@@ -225,6 +225,9 @@ public class HttpUtil {
         return INSTANCE.httpClient;
     }
 
+    /**
+     * enum for http request method
+     */
     private enum HttpMethod {
 
         /** http get request */

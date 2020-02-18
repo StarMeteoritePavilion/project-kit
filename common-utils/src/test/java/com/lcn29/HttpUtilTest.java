@@ -27,10 +27,7 @@ public class HttpUtilTest {
             Map<String, String> param = new HashMap<>();
             param.put("wd","weather");
             param.put("ie","utf-8");
-
-            RequestInfo info = new RequestInfo().url(BAIDU_TEST_URL);
-            //info.params(param);
-
+            RequestInfo info = new RequestInfo().url(BAIDU_TEST_URL).params(param);
             String response = HttpUtil.get(info);
             System.out.println(response);
         } catch (IOException e) {
