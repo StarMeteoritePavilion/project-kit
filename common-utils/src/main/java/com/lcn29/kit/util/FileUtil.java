@@ -16,22 +16,63 @@ import java.io.IOException;
 public class FileUtil {
 
     /**
-     * create file folder
-     * @param foldPath absolute path of the fold
+     * determine if the file or path exists
+     * @param path
      * @return
      */
-    public static boolean createFileFolder(String foldPath) {
-        File file = new File(foldPath);
-        return file.mkdir();
+    public static boolean fileOrPathExist(String path) {
+        return new File(path).exists();
     }
 
     /**
-     * create file folder
-     * @param foldPath absolute path of the fold
+     * create folder
+     * @param foldPath
      * @return
      */
-    public static boolean createFile(String foldPath) throws IOException {
-        File file = new File(foldPath);
+    public static boolean createFolder(String foldPath) {
+
+        if (StringUtil.isBlank(foldPath)) {
+            return false;
+        }
+        if (fileOrPathExist(foldPath)) {
+            return true;
+        }
+        String[] splitPath = OSUtil.isWindow() ? foldPath.split("\\\\") : foldPath.split("/");
+
+        File folder;
+        StringBuilder pathBuilder = new StringBuilder();
+        for (String path : splitPath) {
+            pathBuilder.append(path).append(File.separator);
+            folder = new File(pathBuilder.toString());
+            if (!folder.exists() && !folder.mkdir()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * create file
+     * @param filePath
+     * @return
+     */
+    public static boolean createFile(String filePath) throws IOException {
+        if (StringUtil.isBlank(filePath) || filePath.endsWith(File.separator)) {
+            return false;
+        }
+        if (fileOrPathExist(filePath)) {
+            return true;
+        }
+        String fileName = filePath.substring(filePath.lastIndexOf(File.separator) + 1);
+        System.out.println(fileName);
+        // the fullPath = foldPath + file.separator + fileName
+        String foldPath = filePath.substring(0, filePath.length() - File.separator.length() - fileName.length());
+
+        // the isBlank() is used to handler base path in linux, such as /test.txt, the foldPath is blank
+        if (!foldPath.isBlank() && !createFolder(foldPath)) {
+            return false;
+        }
+        File file = new File(filePath);
         return file.createNewFile();
     }
 
@@ -296,7 +337,7 @@ public class FileUtil {
         return true;
     }
 
-    public static void main(String[] args) {
+    public static void main2(String[] args) {
         copyGeneralFile("E://Assemble.txt", "E://New.txt"); // 复制文件
         copyGeneralFile("E://hello", "E://world"); // 复制文件夹
         deleteGeneralFile("E://onlinestockdb.sql"); // 删除文件

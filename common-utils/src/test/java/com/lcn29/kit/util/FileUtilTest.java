@@ -17,7 +17,7 @@ public class FileUtilTest {
     @Test
     public void createFileFoldTest() {
         String foldPath = "F:\\createFold";
-        if (FileUtil.createFileFolder(foldPath)) {
+        if (FileUtil.createFolder(foldPath)) {
             System.out.println("success");
         } else {
             System.out.println("fail");
