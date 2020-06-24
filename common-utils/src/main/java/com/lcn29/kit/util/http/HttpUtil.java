@@ -1,8 +1,7 @@
 package com.lcn29.kit.util.http;
 
-import com.alibaba.fastjson.JSONObject;
 import com.lcn29.kit.util.CollectionMapUtil;
-import com.lcn29.kit.util.constant.CommonConstants;
+import com.lcn29.kit.constant.CommonConstants;
 import com.lcn29.kit.util.http.request.RequestInfo;
 import okhttp3.*;
 
@@ -152,10 +151,10 @@ public class HttpUtil {
             builder.method(method.getMethod(),null);
             return;
         }
-        JSONObject jsonObject = new JSONObject();
-        info.getParams().forEach(jsonObject::put);
-        RequestBody body = RequestBody.create(JSONObject.toJSONString(jsonObject), JSON);
-        builder.method(method.getMethod(), body);
+        //JSONObject jsonObject = new JSONObject();
+        //info.getParams().forEach(jsonObject::put);
+        //RequestBody body = RequestBody.create(JSONObject.toJSONString(jsonObject), JSON);
+        //builder.method(method.getMethod(), body);
     }
 
     /**

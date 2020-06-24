@@ -44,7 +44,7 @@ public class StringUtil {
     }
 
     /**
-     * str == null or str.length == 0 or str.trim() == 0
+     * str == null or str.trim().length == 0
      * @param str
      * @return
      */
@@ -56,7 +56,7 @@ public class StringUtil {
     }
 
     /**
-     * str != null and str.length > 0 and str.trim() > 0
+     * str != null and str.length > 0 and str.trim().length > 0
      * @param str
      * @return
      */

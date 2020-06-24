@@ -1,6 +1,6 @@
-package com.lcn29.kit.util.validation.domain;
+package com.lcn29.kit.validation.domain;
 
-import com.lcn29.kit.util.validation.group.CommonCreate;
+import com.lcn29.kit.validation.group.CommonCreate;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;

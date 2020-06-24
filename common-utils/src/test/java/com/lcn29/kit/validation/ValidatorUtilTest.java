@@ -1,7 +1,7 @@
-package com.lcn29.kit.util.validation;
+package com.lcn29.kit.validation;
 
-import com.lcn29.kit.util.validation.domain.Demo;
-import com.lcn29.kit.util.validation.group.CommonCreate;
+import com.lcn29.kit.validation.domain.Demo;
+import com.lcn29.kit.validation.group.CommonCreate;
 import org.junit.jupiter.api.Test;
 
 import javax.validation.groups.Default;

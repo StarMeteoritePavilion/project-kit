@@ -1,4 +1,4 @@
-package com.lcn29.kit.util.validation;
+package com.lcn29.kit.validation;
 
 import com.lcn29.kit.util.CollectionMapUtil;
 

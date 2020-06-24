@@ -1,4 +1,4 @@
-package com.lcn29.kit.util.validation.group;
+package com.lcn29.kit.validation.group;
 
 /**
  * <pre>
