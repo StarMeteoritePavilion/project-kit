@@ -55,9 +55,8 @@ public class JsonUtil {
         try {
             return OBJECT_MAPPER.writeValueAsString(object);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     /**
@@ -71,9 +70,8 @@ public class JsonUtil {
         try {
             return OBJECT_MAPPER.readValue(jsonString, valueType);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
 }
